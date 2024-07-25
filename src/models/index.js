@@ -18,7 +18,7 @@ sequelize.sync({ alter: true })
   })
   .catch(err => {
     console.error('Error updating database:', err);
-  })
+})
 
 const db = {}
 db.Sequelize = Sequelize

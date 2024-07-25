@@ -20,7 +20,8 @@ exports.create = (req, res) => {
 
   User.create(user)
     .then(data => {
-      res.send(data);
+      const { password, ...userData } = data.toJSON();
+      res.send(userData);
     })
     .catch(err => {
       res.status(500).send({
@@ -61,7 +62,8 @@ exports.findAll = (req, res) => {
 
   User.findAll({
     where: condition,
-    order: orderCondition
+    order: orderCondition,
+    attributes: { exclude: ['password'] } // Exclude the password field
   })
     .then(data => {
       res.send(data);
@@ -76,7 +78,9 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  User.findByPk(id)
+  User.findByPk(id, {
+    attributes: { exclude: ['password'] }
+  })
     .then(data => {
       if (data) {
         res.send(data);
@@ -224,7 +228,9 @@ exports.register = (req, res) => {
 
       User.create(newUser)
         .then((data) => {
-          res.send(data);
+          // Exclude the password field in the response
+          const { password, ...userData } = data.toJSON();
+          res.send(userData);
         })
         .catch((err) => {
           res.status(500).send({

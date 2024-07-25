@@ -20,16 +20,6 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       }
     }, {
-      indexes: [
-        {
-          unique: true,
-          fields: ['title', 'author']
-        },
-        {
-          unique: true,
-          fields: ['id']
-        }
-      ],
       defaultScope: {
         order: [['id', 'DESC']]
       }
